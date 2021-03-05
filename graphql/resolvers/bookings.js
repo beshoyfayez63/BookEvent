@@ -3,8 +3,11 @@ const Booking = require('../../models/booking');
 const { transformBooking, transformEvents } = require('./merge');
 
 module.exports = {
-  bookings: async () => {
+  bookings: async (_, req) => {
     try {
+      if (!req.isAuth) {
+        throw new Error('You should login to continue');
+      }
       const bookings = await Booking.find();
       return bookings.map((booking) => {
         return transformBooking(booking);
@@ -13,11 +16,14 @@ module.exports = {
       throw err;
     }
   },
-  bookEvent: async (args) => {
+  bookEvent: async (args, req) => {
     try {
+      if (!req.isAuth) {
+        throw new Error('You should login to continue');
+      }
       const fetchedEvent = await Event.findById(args.eventId);
       const booking = new Booking({
-        user: '603f19e5680235f3b03f410c',
+        user: req.userId,
         event: fetchedEvent,
       });
       const result = await booking.save();
@@ -26,8 +32,11 @@ module.exports = {
       throw err;
     }
   },
-  cancelBooking: async ({ bookingId }) => {
+  cancelBooking: async ({ bookingId }, req) => {
     try {
+      if (!req.isAuth) {
+        throw new Error('You should login to continue');
+      }
       const booking = await Booking.findById(bookingId).populate('event');
       if (!booking) {
         throw new Error('Booking not found');

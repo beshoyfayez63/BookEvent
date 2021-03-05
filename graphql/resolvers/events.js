@@ -13,17 +13,20 @@ module.exports = {
     }
   },
 
-  createEvent: async (args) => {
+  createEvent: async (args, req) => {
     try {
+      if (!req.isAuth) {
+        throw new Error('You should login to continue');
+      }
       const event = new Event({
         title: args.eventInput.title,
         description: args.eventInput.description,
         price: args.eventInput.price,
         date: new Date(args.eventInput.date),
-        creator: '603f19e5680235f3b03f410c',
+        creator: req.userId,
       });
       const eventCreated = await event.save();
-      const user = await User.findById('603f19e5680235f3b03f410c');
+      const user = await User.findById(req.userId);
       if (!user) {
         throw new Error('User does not exist');
       }
