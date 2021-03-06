@@ -1,0 +1,39 @@
+.sidedrawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  height: 100%;
+  width: 250px;
+  background-color: #01d1d1;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+  /* border-right: 1px solid #000; */
+}
+
+.sidedrawer__close {
+  margin-top: 20px;
+  padding-left: 30px;
+}
+
+.sidedrawer ul {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  list-style: none;
+}
+
+.sidedrawer ul li {
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.sidedrawer ul li a {
+  text-decoration: none;
+  color: #000;
+  display: block;
+}
+.sidedrawer ul li a:hover,
+.sidedrawer ul li a.active {
+  color: #f8e264;
+}
