@@ -5,7 +5,7 @@
   z-index: 200;
   height: 100%;
   width: 250px;
-  background-color: #01d1d1;
+  background: #fff;
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
   /* border-right: 1px solid #000; */
 }
@@ -30,10 +30,13 @@
 
 .sidedrawer ul li a {
   text-decoration: none;
-  color: #000;
+  color: #5101d1;
   display: block;
+  padding: 0.25rem 0.5rem;
 }
 .sidedrawer ul li a:hover,
 .sidedrawer ul li a.active {
-  color: #f8e264;
+  color: #5101d1;
+  background-color: #eee;
+  border-radius: 3px;
 }

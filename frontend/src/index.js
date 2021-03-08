@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import './util/styles/helper.css';
 import App from './App';
 
 import store from './store/store';

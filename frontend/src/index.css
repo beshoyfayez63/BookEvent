@@ -5,6 +5,10 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+html {
+  box-sizing: border-box;
+}
+
 *,
 *::after,
 *::before {
@@ -32,4 +36,96 @@ body {
   transform: translateX(-100%);
   opacity: 0;
   transition: all 200ms;
+}
+
+.btn {
+  border: 1px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  transition: 0.2s;
+  outline: 0;
+}
+
+.btn-flex {
+  display: flex;
+  align-items: center;
+}
+
+.btn:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  transform: translateY(0);
+}
+
+.form-control {
+  margin-bottom: 1rem;
+}
+
+.form-control label,
+.form-control input {
+  width: 100%;
+  display: block;
+}
+
+.form-control label {
+  margin-bottom: 0.5rem;
+}
+
+.form-control input,
+.form-control textarea {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  outline: none;
+  width: 100%;
+}
+
+.form-control input:focus {
+  border: 1px solid gray;
+}
+
+.form-actions button {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+  background-color: #fff;
+  border: 1px solid #5101d1;
+  border-radius: 3px;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  outline: 0;
+}
+
+.form-actions button:hover,
+.form-actions button:active {
+  background: #5101d1;
+  color: #fff;
+}
+
+.form-actions button[type='submit']:disabled {
+  cursor: not-allowed;
+  border: 1px solid #ccc;
+  background-color: #eee;
+  color: #555;
+}
+
+.error {
+  border: 1px solid red !important;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 13px;
 }

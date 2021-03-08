@@ -1,14 +1,22 @@
-import { memo } from 'react';
+import { Fragment, memo } from 'react';
 import NavigationLink from './NavigationLink';
 
-function Navbar() {
-  console.log('Navbar');
+function Navbar(props) {
   return (
     <nav className='main-navigation__items'>
       <ul>
-        <NavigationLink link='/auth' content='Authantication' />
+        {!props.token && (
+          <NavigationLink link='/auth' content='Authantication' />
+        )}
         <NavigationLink link='/events' content='Events' />
-        <NavigationLink link='/bookings' content='Bookings' />
+        {props.token && (
+          <Fragment>
+            <NavigationLink link='/bookings' content='Bookings' />
+            <button onClick={props.logout} className='logout'>
+              Logout
+            </button>
+          </Fragment>
+        )}
       </ul>
     </nav>
   );

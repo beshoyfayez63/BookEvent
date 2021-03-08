@@ -6,11 +6,10 @@ import NavigationLink from './NavigationLink';
 import './SideDrawer.css';
 
 function SideDrawer(props) {
-  // console.log('SideDrawer');
   return (
     <CSSTransition
       in={props.show}
-      timeout={900}
+      timeout={5000}
       classNames='slide-in-left'
       mountOnEnter
       unmountOnExit
@@ -20,13 +19,30 @@ function SideDrawer(props) {
           <Fa.FaTimes
             size='20'
             cursor='pointer'
+            color='#5101d1'
             onClick={props.closeSideDrawer}
           />
         </div>
         <ul>
-          <NavigationLink link='/auth' content='Authantication' />
-          <NavigationLink link='/events' content='Events' />
-          <NavigationLink link='/bookings' content='Bookings' />
+          {!props.token && (
+            <NavigationLink
+              onClick={props.closeSideDrawer}
+              link='/auth'
+              content='Authantication'
+            />
+          )}
+          <NavigationLink
+            onClick={props.closeSideDrawer}
+            link='/events'
+            content='Events'
+          />
+          {props.token && (
+            <NavigationLink
+              onClick={props.closeSideDrawer}
+              link='/bookings'
+              content='Bookings'
+            />
+          )}
         </ul>
       </aside>
     </CSSTransition>

@@ -8,11 +8,19 @@ import Navbar from './Navbar';
 import SideDrawer from './SideDrawer';
 import BackDrop from '../UI/BackDrop';
 
+// REDUX
+import { useSelector, useDispatch } from 'react-redux';
+import { token, logout } from '../../store/user/user-slice';
+
 import './MainNavigation.css';
 
 function MainNavigation(props) {
-  console.log('MainNavigation');
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+
+  // REDUX
+  const dispatch = useDispatch();
+
+  const userToken = useSelector(token);
 
   const openSideDrawer = () => {
     setDrawerIsOpen(true);
@@ -25,7 +33,11 @@ function MainNavigation(props) {
     <Fragment>
       {drawerIsOpen && <BackDrop onClick={closeSideDrawer} />}
 
-      <SideDrawer closeSideDrawer={closeSideDrawer} show={drawerIsOpen} />
+      <SideDrawer
+        closeSideDrawer={closeSideDrawer}
+        show={drawerIsOpen}
+        token={userToken}
+      />
 
       <header className='main-navigation'>
         <Fa.FaBars className='main-navigation__bar' onClick={openSideDrawer} />
@@ -34,7 +46,7 @@ function MainNavigation(props) {
             <Link to='/events'>BookEvents</Link>
           </h1>
         </div>
-        <Navbar />
+        <Navbar token={userToken} logout={() => dispatch(logout())} />
       </header>
     </Fragment>
   );

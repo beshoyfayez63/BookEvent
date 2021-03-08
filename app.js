@@ -2,12 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { graphqlHTTP } = require('express-graphql');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const graphQlSchema = require('./graphql/schema/index');
 const graphQlReolvers = require('./graphql/resolvers/index');
 const isAuth = require('./middleware/is-auth');
 
 const app = express();
+
+app.use(cors());
 
 app.use(bodyParser.json());
 
@@ -28,7 +31,7 @@ mongoose
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => {
-    app.listen(3000, () => {
+    app.listen(8000, () => {
       console.log('LISTEN');
     });
   })
