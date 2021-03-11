@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 import {
   BrowserRouter as Router,
@@ -15,17 +15,21 @@ import MainNavigation from './components/Navigation/MainNavigation';
 
 // REDUX
 import { useSelector, useDispatch } from 'react-redux';
-import { token, checkAuthState } from './store/user/user-slice';
+import { checkAuthState } from './store/user/user-slice';
 
 import './App.css';
 
 function App() {
+  console.log('APP');
   const dispatch = useDispatch();
-  const userToken = useSelector(token);
+  const userToken = useSelector((state) => state.user.userData.token);
+  const checkAuthTimeOut = useCallback(() => dispatch(checkAuthState()), [
+    dispatch,
+  ]);
 
   useEffect(() => {
-    dispatch(checkAuthState());
-  }, [dispatch]);
+    checkAuthTimeOut();
+  }, [checkAuthTimeOut]);
 
   return (
     <Router>

@@ -33,7 +33,7 @@ function Modal(props) {
               onClick={props.onConfirm}
               disabled={!props.isValid}
             >
-              Confirm
+              {props.confirmText}
             </button>
           )}
         </section>
@@ -42,6 +42,4 @@ function Modal(props) {
   );
 }
 
-export default memo(Modal, (prev, next) => {
-  return prev.open === next.open && prev.isValid === next.isValid;
-});
+export default memo(Modal);

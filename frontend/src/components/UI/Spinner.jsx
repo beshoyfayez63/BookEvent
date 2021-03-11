@@ -1,14 +1,17 @@
+import LoadingSpinner from './spinner.js';
 import './Spinner.css';
 
-function Spinner() {
+function Spinner(props) {
   return (
-    <div className='sk-chase'>
-      <div className='sk-chase-dot'></div>
-      <div className='sk-chase-dot'></div>
-      <div className='sk-chase-dot'></div>
-      <div className='sk-chase-dot'></div>
-      <div className='sk-chase-dot'></div>
-      <div className='sk-chase-dot'></div>
+    <div className='spinner-content'>
+      {/* <div className='lds-dual-ring'></div> */}
+      <LoadingSpinner
+        width={props.width}
+        height={props.height}
+        afterWidth={props.afterWidth}
+        afterHeight={props.afterHeight}
+        margin={props.margin}
+      />
     </div>
   );
 }

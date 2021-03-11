@@ -8,6 +8,7 @@ import { authSchema } from '../util/validation';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { authFetchData, loading, error } from '../store/user/user-slice';
+import { loginQuery, signupQuery } from '../util/graphql-queries';
 
 import './Auth.css';
 
@@ -38,28 +39,9 @@ function Auth() {
     console.log(data);
     let requestBody;
     if (formStatus === 'login') {
-      requestBody = {
-        query: `
-          query {
-            login(email: "${data.email}", password: "${data.password}") {
-              token
-              userId
-              tokenExpiration
-            }
-          }
-        `,
-      };
+      requestBody = loginQuery(data);
     } else {
-      requestBody = {
-        query: `
-          mutation {
-            createUser(userInput: {email: "${data.email}", password: "${data.password}"}) {
-              _id
-              email
-            }
-          }
-        `,
-      };
+      requestBody = signupQuery(data);
     }
 
     authSubmit(requestBody);
@@ -102,7 +84,13 @@ function Auth() {
           {formStatus === 'login' ? 'Login' : 'Signup'}{' '}
           {loadingData && (
             <span className='auth-loading'>
-              <Spinner />
+              <Spinner
+                width='20px'
+                height='20px'
+                afterWidth='20px'
+                afterHeight='20px'
+                margin='auto'
+              />
             </span>
           )}
         </button>

@@ -23,6 +23,13 @@ export const {
 } = userSlice.actions;
 
 // EXPORT AND MAKE ASYNC FUNCTIONS
+
+export const checkAuth = (timeExp) => (dispatch) => {
+  setTimeout(() => {
+    dispatch(logout());
+  }, timeExp);
+};
+
 export const authFetchData = (data, state) => {
   console.log(state);
   return async (dispatch) => {
@@ -38,6 +45,11 @@ export const authFetchData = (data, state) => {
         dispatch(getUser(result.data.data.login));
         localStorage.setItem('token', result.data.data.login.token);
         localStorage.setItem('uid', result.data.data.login.userId);
+        console.log(jwtDecode(result.data.data.login.token).exp);
+        const tokenExp = jwtDecode(getDataLocalStorage().token).exp;
+        dispatch(
+          checkAuth(new Date(tokenExp * 1000).getTime() - new Date().getTime())
+        );
       }
       dispatch(clearError());
     } catch (err) {
@@ -48,23 +60,18 @@ export const authFetchData = (data, state) => {
   };
 };
 
-export const checkAuth = () => (dispatch) => {
-  setTimeout(() => {
-    dispatch(logout());
-  }, 1 * 3.6e6);
-};
-
 export const checkAuthState = () => (dispatch) => {
   const { token, userId } = getDataLocalStorage();
   if (!token) {
     dispatch(logout());
   } else {
-    const expDate = new Date().getTime() + jwtDecode(token).exp;
-    if (expDate < new Date().getTime()) {
+    const expDate = jwtDecode(token).exp * 1000;
+
+    if (new Date(expDate).getTime() < new Date().getTime()) {
       dispatch(logout());
     } else {
       dispatch(getUser({ token, userId, tokenExpiration: 1 }));
-      dispatch(checkAuth());
+      dispatch(checkAuth(new Date(expDate).getTime() - new Date().getTime()));
     }
   }
 };

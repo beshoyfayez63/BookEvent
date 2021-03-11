@@ -2,47 +2,31 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import { getDataLocalStorage } from '../../util/helper';
+import { reducers } from './event-reducers';
 
 export const eventSlice = createSlice({
   name: 'event',
   initialState: {
     loading: false,
     events: [],
-    event: {},
+    event: null,
     error: null,
   },
-  reducers: {
-    loadEvent: (state) => {
-      state.loading = true;
-    },
-    createEvent: (state, action) => {
-      state.events.unshift(action.payload);
-    },
-    fetchEvents: (state, action) => {
-      state.events = action.payload;
-    },
-    clearError: (state) => {
-      state.loading = false;
-      state.error = null;
-    },
-    getError: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
-  },
+  reducers: reducers,
 });
 
-// export const {} = eventSlice.actions;
 export const {
   createEvent,
   fetchEvents,
+  eventById,
   loadEvent,
   clearError,
   getError,
 } = eventSlice.actions;
 
 // EXPORT AND MAKE ASYNC FUNCTIONS
-export const createEventAsync = (data) => async (dispatch) => {
+export const createEventAsync = (data, userId, cb) => async (dispatch) => {
+  console.log(userId);
   try {
     dispatch(loadEvent());
     const result = await axios({
@@ -58,11 +42,13 @@ export const createEventAsync = (data) => async (dispatch) => {
       const message = result.data.errors[0].message;
       throw new Error(message);
     }
-    dispatch(createEvent(result.data.data.createEvent));
+    // result.data.data.createEvent
+    dispatch(createEvent({ event: result.data.data.createEvent, userId }));
     dispatch(clearError());
+    cb();
   } catch (err) {
     if (err) {
-      console.log(typeof err.message);
+      console.log(err.message);
       dispatch(getError(err.message));
     }
   }

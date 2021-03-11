@@ -1,5 +1,3 @@
-import { getDataLocalStorage } from '../../util/helper';
-
 export const initialState = {
   loading: false,
   userData: {
@@ -27,9 +25,11 @@ export const reducers = {
   },
   logout: (state) => {
     state.userData = initialState.userData;
-    if (getDataLocalStorage().token || getDataLocalStorage().userId) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('uid');
-    }
+    // if (getDataLocalStorage().token || getDataLocalStorage().userId) {
+    //   localStorage.removeItem('token');
+    //   localStorage.removeItem('uid');
+    // }
+    localStorage.removeItem('token');
+    localStorage.removeItem('uid');
   },
 };
