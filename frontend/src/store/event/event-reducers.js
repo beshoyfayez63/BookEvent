@@ -9,11 +9,6 @@ export const reducers = {
   fetchEvents: (state, action) => {
     state.events = action.payload;
   },
-
-  eventById: (state, action) => {
-    state.event =
-      state.events.find((event) => event._id === action.payload) || null;
-  },
   clearError: (state) => {
     state.loading = false;
     state.error = null;

@@ -1,11 +1,6 @@
-import { useEffect, useCallback } from 'react';
+import { Fragment, useEffect, useCallback } from 'react';
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 // COMPONENTS
 import Auth from './pages/Auth';
@@ -16,13 +11,14 @@ import MainNavigation from './components/Navigation/MainNavigation';
 // REDUX
 import { useSelector, useDispatch } from 'react-redux';
 import { checkAuthState } from './store/user/user-slice';
+import { getDataLocalStorage } from './util/helper';
 
 import './App.css';
 
 function App() {
-  console.log('APP');
   const dispatch = useDispatch();
   const userToken = useSelector((state) => state.user.userData.token);
+  const userToken2 = getDataLocalStorage().token;
   const checkAuthTimeOut = useCallback(() => dispatch(checkAuthState()), [
     dispatch,
   ]);
@@ -32,12 +28,14 @@ function App() {
   }, [checkAuthTimeOut]);
 
   return (
-    <Router>
+    <Fragment>
       <MainNavigation />
       <main className='main-content'>
         <Switch>
-          {userToken && <Redirect from='/auth' to='/events' exact />}
-          {!userToken && (
+          {(userToken || userToken2) && (
+            <Redirect from='/auth' to='/events' exact />
+          )}
+          {!(userToken || userToken2) && (
             <Route path='/auth' exact>
               <Auth />
             </Route>
@@ -45,15 +43,15 @@ function App() {
           <Route path='/events' exact>
             <Events />
           </Route>
-          {userToken && (
+          {(userToken || userToken2) && (
             <Route path='/bookings' exact>
               <Bookings />
             </Route>
           )}
-          {!userToken && <Redirect to='/auth' exact />}
+          {!(userToken || userToken2) && <Redirect to='/auth' exact />}
         </Switch>
       </main>
-    </Router>
+    </Fragment>
   );
 }
 

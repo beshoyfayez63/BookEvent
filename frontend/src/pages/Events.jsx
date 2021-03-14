@@ -1,4 +1,5 @@
 import { Fragment, useState, useEffect, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import EventList from '../components/Events/EventList';
 import EventControls from '../components/Events/EventControls';
@@ -8,15 +9,16 @@ import Spinner from '../components/UI/Spinner';
 
 // REDUX
 import { useSelector, useDispatch } from 'react-redux';
-import { eventFetch, eventById } from '../store/event/event-slice';
-import { eventsQuery } from '../util/graphql-queries';
+import { eventFetch } from '../store/event/event-slice';
+import { bookEventAsync } from '../store/booking/book-slice';
+import { eventsQuery, bookEvent } from '../util/graphql-queries';
 
 import './Events.css';
 
 function Events() {
-  console.log('Events');
   const [open, setOpen] = useState(false);
   const [event, setEvent] = useState(null);
+  const history = useHistory();
 
   const token = useSelector((state) => state.user.userData.token);
   const userId = useSelector((state) => state.user.userData.userId);
@@ -53,6 +55,14 @@ function Events() {
     setEvent(event);
   };
 
+  const onBookEventHandler = () => {
+    if (!token) {
+      return history.push('/auth');
+    }
+    const request = bookEvent(event._id);
+    dispatch(bookEventAsync(request, closeEventDetailModal));
+  };
+
   return (
     <Fragment>
       <CreateEvent open={open} closeModal={closeModal} userId={userId} />
@@ -70,7 +80,7 @@ function Events() {
           <EventDetail
             event={event}
             closeModal={closeEventDetailModal}
-            confirmModal={() => {}}
+            bookEvent={onBookEventHandler}
             open={Boolean(event)}
           />
         </Fragment>

@@ -36,6 +36,15 @@ function Modal(props) {
               {props.confirmText}
             </button>
           )}
+          {!props.canConfirm && (
+            <button
+              className='btn'
+              onClick={props.onRequest}
+              disabled={props.isBooked}
+            >
+              {props.confirmText}
+            </button>
+          )}
         </section>
       </div>
     </CSSTransition>

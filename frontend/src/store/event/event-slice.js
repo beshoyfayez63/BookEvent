@@ -18,7 +18,6 @@ export const eventSlice = createSlice({
 export const {
   createEvent,
   fetchEvents,
-  eventById,
   loadEvent,
   clearError,
   getError,

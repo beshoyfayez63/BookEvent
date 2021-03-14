@@ -60,3 +60,66 @@ export const createEventQuery = (eventData) => {
     `,
   };
 };
+
+export const bookEvent = (eventId) => {
+  return {
+    query: `
+      mutation {
+        bookEvent(eventId: "${eventId}") {
+          _id
+          event {
+            _id
+          }
+          user {
+            _id
+          }
+          createdAt
+          updatedAt
+        }
+      }
+    `,
+  };
+};
+
+export const fetchBookingsQuery = () => {
+  return {
+    query: `
+      query {
+        bookings {
+          _id
+          event {
+            _id
+            title
+            description
+          }
+          user {
+            _id
+          }
+          createdAt
+        }
+      }
+    `,
+  };
+};
+
+export const isEventBooked = (eventId) => {
+  return {
+    query: `
+      query {
+        isEventBooked(eventId: "${eventId}")
+      }
+    `,
+  };
+};
+
+export const cancelBookingQuery = (bookId) => {
+  return {
+    query: `
+      mutation {
+        cancelBooking(bookingId: "${bookId}") {
+          _id
+        }
+      }
+    `,
+  };
+};

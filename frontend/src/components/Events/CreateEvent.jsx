@@ -12,7 +12,6 @@ import { createEventAsync } from '../../store/event/event-slice';
 import { createEventQuery } from '../../util/graphql-queries';
 
 function CreateEvent(props) {
-  console.log('Create');
   const {
     handleSubmit,
     register,

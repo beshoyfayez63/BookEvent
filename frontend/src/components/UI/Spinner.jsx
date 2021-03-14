@@ -1,4 +1,4 @@
-import LoadingSpinner from './spinner.js';
+import LoadingSpinner from './spinner-css';
 import './Spinner.css';
 
 function Spinner(props) {

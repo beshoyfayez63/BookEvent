@@ -1,10 +1,40 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import axios from '../../util/axios';
 
 import Modal from '../UI/Modal';
 import BackDrop from '../UI/BackDrop';
 
+import { useSelector } from 'react-redux';
+
+import { isEventBooked } from '../../util/graphql-queries';
+
 function EventDetail(props) {
-  console.log('Event Detail');
+  const [eventisBooked, setEventIsBooked] = useState(false);
+
+  const token = useSelector((state) => state.user.userData.token);
+
+  useEffect(() => {
+    if (token && props.event?._id) {
+      const isBooked = async () => {
+        try {
+          const result = await axios.post(
+            '/',
+            isEventBooked(props.event?._id),
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log(result);
+          setEventIsBooked(result.data.data.isEventBooked);
+        } catch (err) {
+          console.log(err.response);
+        }
+      };
+      isBooked();
+    }
+  }, [token, props.event?._id]);
   return (
     <Fragment>
       {props.open && <BackDrop onClick={props.closeModal} />}
@@ -12,11 +42,10 @@ function EventDetail(props) {
       <Modal
         title={props.event?.title}
         canCancel
-        canConfirm
         closeModal={props.closeModal}
-        confirmModal={props.bookEvent}
-        confirmText='Book'
-        isValid={true}
+        onRequest={props.bookEvent}
+        confirmText={eventisBooked ? 'Booked' : 'Book Now'}
+        isBooked={eventisBooked}
         open={props.open}
       >
         <h1>{props.event?.title}</h1>

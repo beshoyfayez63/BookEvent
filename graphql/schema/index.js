@@ -45,6 +45,7 @@ input UserInput {
 type RootQuery {
   events: [Event!]!
   bookings: [Booking!]!
+  isEventBooked(eventId: ID!): Boolean!
   login(email: String!, password: String!): AuthData!
 }
 

@@ -8,7 +8,7 @@ module.exports = {
       if (!req.isAuth) {
         throw new Error('You should login to continue');
       }
-      const bookings = await Booking.find();
+      const bookings = await Booking.find({ user: req.userId });
       return bookings.map((booking) => {
         return transformBooking(booking);
       });
@@ -20,6 +20,13 @@ module.exports = {
     try {
       if (!req.isAuth) {
         throw new Error('You should login to continue');
+      }
+      const isBookEvent = await Booking.findOne({
+        event: args.eventId,
+        user: req.userId,
+      });
+      if (isBookEvent) {
+        throw new Error('You already booked this event');
       }
       const fetchedEvent = await Event.findById(args.eventId);
       const booking = new Booking({
@@ -44,6 +51,24 @@ module.exports = {
       const event = transformEvents(booking.event);
       await Booking.deleteOne({ _id: bookingId });
       return event;
+    } catch (err) {
+      throw err;
+    }
+  },
+  isEventBooked: async ({ eventId }, req) => {
+    try {
+      if (!req.isAuth) {
+        throw new Error('You should login to continue');
+      }
+      let isBooked = false;
+      const isBookedEvent = await Booking.findOne({
+        event: eventId,
+        user: req.userId,
+      });
+      if (isBookedEvent) {
+        isBooked = true;
+      } else isBooked = false;
+      return isBooked;
     } catch (err) {
       throw err;
     }
