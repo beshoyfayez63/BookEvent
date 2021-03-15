@@ -8,7 +8,7 @@ module.exports = {
       const events = await Event.find();
       return events.map((event) => transformEvents(event));
     } catch (err) {
-      console.log(err);
+      console.log('Events', err);
       throw err;
     }
   },

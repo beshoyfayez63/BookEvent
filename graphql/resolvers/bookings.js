@@ -21,6 +21,7 @@ module.exports = {
       if (!req.isAuth) {
         throw new Error('You should login to continue');
       }
+      const fetchedEvent = await Event.findOne({ _id: args.eventId });
       const isBookEvent = await Booking.findOne({
         event: args.eventId,
         user: req.userId,
@@ -28,14 +29,15 @@ module.exports = {
       if (isBookEvent) {
         throw new Error('You already booked this event');
       }
-      const fetchedEvent = await Event.findById(args.eventId);
+
       const booking = new Booking({
         user: req.userId,
-        event: fetchedEvent,
+        event: fetchedEvent._id,
       });
       const result = await booking.save();
       return transformBooking(result);
     } catch (err) {
+      console.log('Book Event', err);
       throw err;
     }
   },

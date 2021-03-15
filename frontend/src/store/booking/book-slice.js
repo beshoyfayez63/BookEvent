@@ -22,6 +22,7 @@ export const {
   deleteBooking,
   isBooked,
   getError,
+  clearError,
 } = bookSlice.actions;
 
 export const bookEventAsync = (data, cb) => {
@@ -56,6 +57,7 @@ export const fetchBookinngsAsync = (query) => async (dispatch) => {
     });
     console.log(bookings);
     dispatch(fetchBookings(bookings.data.data.bookings));
+    dispatch(clearError());
   } catch (err) {
     console.log(err.response);
   }

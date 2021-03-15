@@ -14,7 +14,6 @@ const reducers = {
     );
   },
   fetchBookings: (state, action) => {
-    state.loading = false;
     state.bookings = action.payload;
   },
   deleteBooking: (state, action) => {
@@ -26,6 +25,10 @@ const reducers = {
   getError: (state, action) => {
     state.loading = false;
     state.error = action.payload;
+  },
+  clearError: (state, action) => {
+    state.loading = false;
+    state.error = null;
   },
 };
 

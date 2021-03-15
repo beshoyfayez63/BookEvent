@@ -1,5 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const { json } = require('body-parser');
 const { graphqlHTTP } = require('express-graphql');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -12,7 +12,7 @@ const app = express();
 
 app.use(cors());
 
-app.use(bodyParser.json());
+app.use(json());
 
 app.use(isAuth);
 
@@ -21,6 +21,10 @@ app.use(
   graphqlHTTP({
     schema: graphQlSchema,
     rootValue: graphQlReolvers,
+    customFormatErrorFn: (err) => {
+      console.log('ERROR', err);
+      return err;
+    },
     graphiql: true,
   })
 );

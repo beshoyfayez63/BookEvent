@@ -40,8 +40,9 @@ function Bookings() {
 
   return (
     <Fragment>
-      {loadingBookings && <Spinner />}
-      {bookings.length > 0 && (
+      {loadingBookings ? (
+        <Spinner />
+      ) : (
         <BookingList bookings={bookings} cancelBooking={cancelBookingHandler} />
       )}
     </Fragment>
