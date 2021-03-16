@@ -36,6 +36,7 @@ const eventsPopulate = async (eventIds) => {
   try {
     const events = await Event.find({ _id: { $in: eventIds } });
 
+    console.log(events, eventIds);
     return events.map((event) => {
       return transformEvents(event);
     });

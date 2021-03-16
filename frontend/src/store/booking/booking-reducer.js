@@ -1,7 +1,7 @@
 const reducers = {
   loadBooking: (state) => {
     state.loading = true;
-    state.error = false;
+    state.error = null;
   },
   createBooking: (state, action) => {
     state.loading = false;
@@ -26,7 +26,7 @@ const reducers = {
     state.loading = false;
     state.error = action.payload;
   },
-  clearError: (state, action) => {
+  clearError: (state) => {
     state.loading = false;
     state.error = null;
   },

@@ -91,6 +91,7 @@ export const fetchBookingsQuery = () => {
             _id
             title
             description
+            price
           }
           user {
             _id
